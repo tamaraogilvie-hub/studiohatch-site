@@ -3,10 +3,552 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Site</title>
+  <title>Studio Hatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #FF3DAA;
+      --pink-light: #FFB3DC;
+      --sky: #B8D8F0;
+      --sky-deep: #7BBAE0;
+      --ink: #0D0D0D;
+      --off: #F7F4F0;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      background: var(--off);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--pink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+    }
+    .cursor.grow { width: 40px; height: 40px; background: transparent; border: 1px solid var(--pink); }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      animation: fadeIn 1.4s ease 0.2s forwards;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px;
+      position: relative;
+      background: var(--off);
+    }
+
+    .hero-content::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 10%; bottom: 10%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--pink), transparent);
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
+    }
+
+    .site-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(48px, 6vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: slideUp 0.9s ease 0.5s forwards;
+    }
+
+    .site-name em {
+      font-style: italic;
+      color: var(--pink);
+    }
+
+    .tagline {
+      margin-top: 32px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 1.1s forwards;
+    }
+
+    .hero-desc {
+      margin-top: 48px;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: #333;
+      max-width: 380px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 1.3s forwards;
+    }
+
+    .coming-soon {
+      margin-top: 64px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 1.5s forwards;
+    }
+
+    .coming-soon-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pink);
+    }
+
+    .coming-soon-line {
+      width: 40px;
+      height: 1px;
+      background: var(--pink);
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-contact {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+      padding-bottom: 2px;
+    }
+    .nav-contact:hover { border-color: var(--pink); color: var(--pink); }
+
+    .about {
+      padding: 120px 64px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #aaa;
+      padding-top: 6px;
+    }
+
+    .about-body h2 {
+      font-weight: 300;
+      font-size: clamp(32px, 3.5vw, 52px);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .about-body h2 em { font-style: italic; color: var(--pink); }
+
+    .about-body p {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #444;
+      max-width: 560px;
+      margin-bottom: 20px;
+    }
+
+    .team {
+      background: var(--ink);
+      color: var(--off);
+      padding: 120px 64px;
+    }
+
+    .team-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .team-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 64px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .team-card {
+      padding: 48px;
+      border: 1px solid #1a1a1a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--pink);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+      transform-origin: left;
+    }
+
+    .team-card:hover::after { transform: scaleX(1); }
+
+    .team-name {
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .team-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 24px;
+    }
+
+    .team-bio {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #999;
+      margin-bottom: 32px;
+    }
+
+    .team-credentials {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: #444;
+      line-height: 1.9;
+      border-top: 1px solid #1e1e1e;
+      padding-top: 20px;
+    }
+
+    .domains {
+      padding: 120px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .domains-header {
+      display: flex;
+      align-items: baseline;
+      gap: 32px;
+      margin-bottom: 72px;
+    }
+
+    .domains-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .domain-list { list-style: none; }
+
+    .domain-item {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid #e8e4df;
+      cursor: default;
+      transition: padding-left 0.3s ease;
+    }
+
+    .domain-item:hover { padding-left: 16px; }
+    .domain-item:hover .domain-dot { background: var(--pink); }
+
+    .domain-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #ccc;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .domain-name {
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      flex: 1;
+    }
+
+    .domain-desc {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: #aaa;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .contact-strip {
+      background: var(--pink);
+      color: white;
+      padding: 80px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .contact-strip h3 {
+      font-size: clamp(28px, 3.5vw, 52px);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: white;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 16px 32px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .contact-link:hover { background: white; color: var(--pink); }
+
+    footer {
+      padding: 40px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--ink);
+      color: #555;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { height: 50vh; }
+      .hero-content { padding: 48px 32px; }
+      .about { grid-template-columns: 1fr; gap: 32px; padding: 80px 32px; }
+      .team { padding: 80px 32px; }
+      .team-grid { grid-template-columns: 1fr; }
+      .domains { padding: 80px 32px; }
+      .contact-strip { flex-direction: column; gap: 32px; padding: 64px 32px; text-align: center; }
+      footer { padding: 32px; flex-direction: column; gap: 8px; }
+      nav { padding: 24px 32px; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world</h1>
-  <p>My site is coming soon.</p>
+
+  <div class="cursor" id="cursor"></div>
+
+  <nav>
+    <a href="#" class="nav-logo">Studio Hatch</a>
+    <a href="mailto:hello@studiohatch.com.au" class="nav-contact">get in touch</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-image">
+      <img src="Studio_Hatch.jpg" alt="Studio Hatch" />
+    </div>
+    <div class="hero-content">
+      <h1 class="site-name">studio<br><em>hatch</em></h1>
+      <p class="tagline">Sydney · Est. 2025</p>
+      <p class="hero-desc">Maker-creator consultants spanning design, architecture, technology, strategy and operations.</p>
+      <div class="coming-soon">
+        <span class="coming-soon-line"></span>
+        <span class="coming-soon-label">Something is hatching</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div>
+      <p class="about-label">About</p>
+    </div>
+    <div class="about-body">
+      <h2>We make things<br><em>worth making.</em></h2>
+      <p>Studio Hatch is a boutique consultancy built for the work that sits at the intersection of ideas and execution — where design thinking meets operational rigour.</p>
+      <p>We work with founders, organisations and brands who want more than advice. We want to build things with you.</p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="team-inner">
+      <p class="team-label">The people</p>
+      <div class="team-grid">
+
+        <div class="team-card">
+          <h3 class="team-name">Nicholas Duggan</h3>
+          <p class="team-title">Co-founder</p>
+          <p class="team-bio">Nicholas brings the pattern recognition of a quant and the spatial thinking of a designer to the structures behind creative practice. He is interested in how things actually work — the feedback loops, the incentives, the systems that shape outcomes whether you're in treasury or a studio.</p>
+          <p class="team-credentials">
+            BSc Physics &amp; Mathematics · University of Sydney<br>
+            BCom Corporate Finance &amp; Accounting · University of Sydney<br>
+            BDes Architecture · University of Technology Sydney
+          </p>
+        </div>
+
+        <div class="team-card">
+          <h3 class="team-name">Tamara Ogilvie</h3>
+          <p class="team-title">Co-founder</p>
+          <p class="team-bio">An unusual path — performance studies, journalism, then accounting — that turns out to make perfect sense. Tamara is focused on how founders build. The corporate architecture, the governance, the operational scaffolding — designed to be invisible so the work can be visible. Trained as an accountant, thinks like a systems designer. Drawn to the moment when a good idea meets the machinery that lets it compound.</p>
+          <p class="team-credentials">
+            BA Performance Studies · BCom Business Information Systems &amp; Accounting<br>
+            Grad Cert Journalism<br>
+            ACA · Institute of Chartered Accountants in England &amp; Wales<br>
+            GAICD · Australian Institute of Company Directors
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="domains">
+    <div class="domains-header">
+      <span class="domains-label">What we do</span>
+    </div>
+    <ul class="domain-list">
+      <li class="domain-item">
+        <span class="domain-dot"></span>
+        <span class="domain-name">Strategy & Operations</span>
+        <span class="domain-desc">From plan to practice</span>
+      </li>
+      <li class="domain-item">
+        <span class="domain-dot"></span>
+        <span class="domain-name">Design & Architecture</span>
+        <span class="domain-desc">Form with function</span>
+      </li>
+      <li class="domain-item">
+        <span class="domain-dot"></span>
+        <span class="domain-name">Brand & Identity</span>
+        <span class="domain-desc">Making it memorable</span>
+      </li>
+      <li class="domain-item">
+        <span class="domain-dot"></span>
+        <span class="domain-name">Product & Distribution</span>
+        <span class="domain-desc">Getting it to market</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="contact-strip">
+    <h3>Let's make<br>something.</h3>
+    <a href="mailto:hello@studiohatch.com.au" class="contact-link">hello@studiohatch.com.au</a>
+  </section>
+
+  <footer>
+    <span>© 2025 Studio Hatch</span>
+    <span>Sydney, Australia</span>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .domain-item, .team-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.about-body, .team-card, .domain-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+  </script>
+
 </body>
 </html>
