@@ -11,11 +11,8 @@
 
     :root {
       --pink: #FF3DAA;
-      --pink-light: #FFB3DC;
-      --sky: #B8D8F0;
-      --sky-deep: #7BBAE0;
       --ink: #0D0D0D;
-      --off: #F7F4F0;
+      --off: #F8F8F8;
       --serif: 'Cormorant Garamond', Georgia, serif;
       --mono: 'DM Mono', monospace;
     }
@@ -48,6 +45,7 @@
       grid-template-columns: 1fr 1fr;
       position: relative;
       overflow: hidden;
+      background: var(--off);
     }
 
     .hero-image {
@@ -55,7 +53,7 @@
       overflow: hidden;
     }
 
-    .hero-image img 
+    .hero-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -68,7 +66,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80px 64px;
+      padding: 120px 72px 80px 72px;
       position: relative;
       background: var(--off);
     }
@@ -76,7 +74,7 @@
     .hero-content::before {
       content: '';
       position: absolute;
-      left: 0; top: 10%; bottom: 10%;
+      left: 0; top: 15%; bottom: 15%;
       width: 1px;
       background: linear-gradient(to bottom, transparent, var(--pink), transparent);
       opacity: 0;
@@ -86,7 +84,7 @@
     .site-name {
       font-family: var(--serif);
       font-weight: 300;
-      font-size: clamp(48px, 6vw, 88px);
+      font-size: clamp(52px, 6.5vw, 96px);
       line-height: 0.95;
       letter-spacing: -0.02em;
       opacity: 0;
@@ -100,33 +98,33 @@
     }
 
     .tagline {
-      margin-top: 32px;
+      margin-top: 40px;
       font-family: var(--mono);
       font-size: 11px;
       font-weight: 300;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #888;
+      color: #999;
       opacity: 0;
       animation: fadeIn 0.8s ease 1.1s forwards;
     }
 
     .hero-desc {
       margin-top: 48px;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 300;
-      line-height: 1.7;
-      color: #333;
-      max-width: 380px;
+      line-height: 1.75;
+      color: #888;
+      max-width: 400px;
       opacity: 0;
       animation: fadeIn 0.8s ease 1.3s forwards;
     }
 
     .coming-soon {
-      margin-top: 64px;
+      margin-top: 56px;
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       opacity: 0;
       animation: fadeIn 0.8s ease 1.5s forwards;
     }
@@ -143,6 +141,7 @@
       width: 40px;
       height: 1px;
       background: var(--pink);
+      flex-shrink: 0;
     }
 
     nav {
@@ -153,7 +152,6 @@
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      mix-blend-mode: multiply;
     }
 
     .nav-logo {
@@ -172,17 +170,14 @@
       color: var(--ink);
       text-decoration: none;
       border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, color 0.2s;
       padding-bottom: 2px;
     }
     .nav-contact:hover { border-color: var(--pink); color: var(--pink); }
 
     .about {
       padding: 120px 64px;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 80px;
-      max-width: 1200px;
+      max-width: 800px;
       margin: 0 auto;
     }
 
@@ -192,7 +187,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: #aaa;
-      padding-top: 6px;
+      margin-bottom: 32px;
     }
 
     .about-body h2 {
@@ -209,14 +204,14 @@
       font-size: 17px;
       font-weight: 300;
       line-height: 1.8;
-      color: #444;
+      color: #888;
       max-width: 560px;
       margin-bottom: 20px;
     }
 
     .team {
       background: var(--ink);
-      color: var(--off);
+      color: #f0f0f0;
       padding: 120px 64px;
     }
 
@@ -230,7 +225,7 @@
       font-size: 10px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #666;
+      color: #555;
       margin-bottom: 64px;
     }
 
@@ -289,7 +284,7 @@
       font-size: 9px;
       font-weight: 300;
       letter-spacing: 0.08em;
-      color: #444;
+      color: #aaa;
       line-height: 1.9;
       border-top: 1px solid #1e1e1e;
       padding-top: 20px;
@@ -302,9 +297,6 @@
     }
 
     .domains-header {
-      display: flex;
-      align-items: baseline;
-      gap: 32px;
       margin-bottom: 72px;
     }
 
@@ -356,7 +348,7 @@
     }
 
     .contact-strip {
-      background: var(--pink);
+      background: rgba(255, 61, 170, 0.6);
       color: white;
       padding: 80px 64px;
       display: flex;
@@ -405,9 +397,9 @@
 
     @media (max-width: 768px) {
       .hero { grid-template-columns: 1fr; }
-      .hero-image { height: 50vh; }
-      .hero-content { padding: 48px 32px; }
-      .about { grid-template-columns: 1fr; gap: 32px; padding: 80px 32px; }
+      .hero-image { height: 55vh; }
+      .hero-content { padding: 64px 32px; }
+      .about { padding: 80px 32px; }
       .team { padding: 80px 32px; }
       .team-grid { grid-template-columns: 1fr; }
       .domains { padding: 80px 32px; }
@@ -436,7 +428,7 @@
       <p class="hero-desc">Maker-creator consultants spanning design, architecture, technology, strategy and operations.</p>
       <div class="coming-soon">
         <span class="coming-soon-line"></span>
-        <span class="coming-soon-label">We build the structures that let good ideas compound.</span>
+        <span class="coming-soon-label">We build the machinery and structures that let good ideas happen.</span>
       </div>
     </div>
   </section>
@@ -448,7 +440,7 @@
     <div class="about-body">
       <h2>We make things<br><em>worth making.</em></h2>
       <p>Studio Hatch is a boutique consultancy built for the work that sits at the intersection of ideas and execution — where design thinking meets operational rigour.</p>
-      <p>We work with founders, organisations and brands who want more than advice. We want to build things with you.</p>
+      <p>We work with founders, organisations and brands who want more than advice. We want to build the systems and operations that enable successful creative builds and make good ideas happen.</p>
     </div>
   </section>
 
@@ -460,7 +452,7 @@
         <div class="team-card">
           <h3 class="team-name">Nicholas Duggan</h3>
           <p class="team-title">Co-founder</p>
-          <p class="team-bio">Nicholas brings the pattern recognition of a quantitative analyst and the spatial thinking of a designer to the structures behind successful creative practice. He focuses in on how things actually work - the feedback loops and iteration, the incentives, the systems that shape outcomes be they in finance or a studio.</p>
+          <p class="team-bio">Nicholas brings the pattern recognition of a quantitative analyst and the spatial thinking of a designer to the structures behind successful creative practice. He focuses on how ideas actually come to life — the feedback loops and iteration, the incentives, the systems that shape outcomes, whether that be in finance or a studio.</p>
           <p class="team-credentials">
             BSc Physics &amp; Mathematics · University of Sydney<br>
             BCom Corporate Finance &amp; Accounting · University of Sydney<br>
@@ -471,9 +463,9 @@
         <div class="team-card">
           <h3 class="team-name">Tamara Ogilvie</h3>
           <p class="team-title">Co-founder</p>
-          <p class="team-bio">Tamara is focused on how founders build. The corporate architecture, the governance, the operational scaffolding - designed to be invisible so the work can be visible. Schooled in arts, journalism and accounting, Tamara thinks like a systems designer and can see the whole story. Drawn to the moment when a good idea meets the machinery that lets it compound.</p>
+          <p class="team-bio">Experienced across strategy, go-to-market, finance, operations, and governance. Tamara is focused on designing the corporate architecture, governance and operational scaffolding to be invisible so the best work of founders and creators can be visible. Schooled in arts, journalism and accounting, Tamara sees the whole, people-led story and brings a strong conviction that good ideas deserve proper delivery.</p>
           <p class="team-credentials">
-            BA Performance Studies · University of Sydney
+            BA Performance Studies · University of Sydney<br>
             BCom Business Information Systems &amp; Accounting · University of Sydney<br>
             Grad Cert Journalism · University of Technology Sydney<br>
             ACA · Institute of Chartered Accountants in England &amp; Wales<br>
@@ -492,22 +484,22 @@
     <ul class="domain-list">
       <li class="domain-item">
         <span class="domain-dot"></span>
-        <span class="domain-name">Strategy & Operations</span>
+        <span class="domain-name">Strategy &amp; Operations</span>
         <span class="domain-desc">From plan to practice</span>
       </li>
       <li class="domain-item">
         <span class="domain-dot"></span>
-        <span class="domain-name">Design & Architecture</span>
+        <span class="domain-name">Design &amp; Architecture</span>
         <span class="domain-desc">Form with function</span>
       </li>
       <li class="domain-item">
         <span class="domain-dot"></span>
-        <span class="domain-name">Brand & Identity</span>
+        <span class="domain-name">Brand &amp; Identity</span>
         <span class="domain-desc">Making it memorable</span>
       </li>
       <li class="domain-item">
         <span class="domain-dot"></span>
-        <span class="domain-name">Product & Distribution</span>
+        <span class="domain-name">Product &amp; Distribution</span>
         <span class="domain-desc">Getting it to market</span>
       </li>
     </ul>
